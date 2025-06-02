@@ -34,7 +34,7 @@ class Program
 
         Order order = new Order();
         order.OrderPlaced += logger.OrderPlaced;
-
+        
         order.AddItem(catalog.GetProductById(1));
         order.AddItem(catalog.GetProductById(2));
         

@@ -11,4 +11,9 @@ public class StringDataRetriever : IDataRetriever
             "string3"
         ];
     }
+
+    public string GetName()
+    {
+        return "StringDataRetriever";
+    }
 }

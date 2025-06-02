@@ -29,7 +29,7 @@ public class ProductCatalog
     {
         // return products.Find(p => p.ProductId == id);
 
-        foreach (var product in products)
+        foreach (Product product in products)
         {
             if (product.ProductId == id)
             {
@@ -43,7 +43,7 @@ public class ProductCatalog
     public void DisplayProducts()
     {
         Console.WriteLine("------Product Catalog:------");
-        foreach (var product in products)
+        foreach (Product product in products)
         {
             Console.WriteLine();
             Console.WriteLine(product.ToString());

@@ -16,7 +16,7 @@ public class Order
     public decimal CalculateOrderTotal()
     {
         decimal total = 0;
-        foreach (var item in _items)
+        foreach (IOrderable item in _items)
         {
             total += item.CalculateTotalPrice(1); // Assuming quantity of 1 for simplicity
         }

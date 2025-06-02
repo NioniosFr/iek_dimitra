@@ -6,4 +6,9 @@ public class StringLineFileReader : IDataRetriever
     {
         return File.ReadAllLines("data.txt");
     }
+
+    public string GetName()
+    {
+        return "StringLineFileReader";
+    }
 }

@@ -3,4 +3,6 @@
 public interface IDataRetriever
 {
     string[] GetData();
+
+    string GetName();
 }

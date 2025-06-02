@@ -12,28 +12,55 @@ class Program
 
         // IPaymentDetails paymentDetails = PaymentDetailsFactory.GetPaymentDetails(customerId, args[0], amount, currency);
 
-        IPaymentDetails paymentDetails = new CreditCardPaymentDetails
-        {
-            Amount = amount,
-            Currency = currency,
-            CardNumber = "1234-5678-9012-3456",
-            ExpiryDate = DateTime.Now.AddYears(2)
-        };
+        IPaymentDetails paymentDetails = GetPaymentDetails(paymentProcessor, amount, currency);
 
         // TODO: We need to return the TransactionId from the Charge method
         PaymentStatus status = paymentProcessor.Charge(paymentDetails);
         Console.WriteLine($"Payment processed successfully for type: {paymentProcessor.GetType().Name}.");
 
         paymentProcessor = PaymentProcessorFactory.GetPaymentProcessor("PayPal");
-        paymentDetails = new PaypalPaymentDetails
-        {
-            Amount = amount,
-            Currency = currency,
-            Email = "test@test.com"
-        };
+        paymentDetails = GetPaymentDetails(paymentProcessor, amount, currency);
+
         status = paymentProcessor.Charge(paymentDetails);
 
         Console.WriteLine($"Payment processed successfully for type: {paymentProcessor.GetType().Name}.");
+    }
+
+    public static IPaymentDetails GetPaymentDetails(IPaymentProcessor paymentProcessor, decimal amount, string currency)
+    {
+        IPaymentDetails paymentDetails = null;
+        if (paymentProcessor is BankTransferProcessor)
+        {
+            paymentDetails = new BankPaymentDetails
+            {
+                Amount = amount,
+                Currency = currency,
+                IBAN = "DE89370400440532013000"
+            };
+        }
+
+        if (paymentProcessor is CreditCardProcessor)
+        {
+            paymentDetails = new CreditCardPaymentDetails
+            {
+                Amount = amount,
+                Currency = currency,
+                CardNumber = "1234-5678-9012-3456",
+                ExpiryDate = DateTime.Now.AddYears(2)
+            };
+        }
+
+        if (paymentProcessor is PaypalProcessor)
+        {
+            paymentDetails = new PaypalPaymentDetails
+            {
+                Amount = amount,
+                Currency = currency,
+                Email = "test@test.com"
+            };
+        }
+
+        return paymentDetails;
     }
 }
 
@@ -64,7 +91,12 @@ public class PaypalProcessor : IPaymentProcessor
     public PaymentStatus Charge(IPaymentDetails paymentDetails)
         //(string email, decimal amount, string currency)
     {
-        var paypalPaymentDetails = paymentDetails as PaypalPaymentDetails;
+        PaypalPaymentDetails paypalPaymentDetails = paymentDetails as PaypalPaymentDetails;
+
+        if (paypalPaymentDetails == null)
+        {
+            throw new ArgumentException("Invalid payment details for PayPal processor.");
+        }
 
         // Simulate payment processing
         Console.WriteLine(
@@ -88,7 +120,13 @@ public class CreditCardProcessor : IPaymentProcessor
     public PaymentStatus Charge(IPaymentDetails paymentDetails)
         //(string cardNumber, DateTime expiryDate, string currency, decimal amount)
     {
-        var creditCardPaymentDetails = paymentDetails as CreditCardPaymentDetails;
+        CreditCardPaymentDetails creditCardPaymentDetails = paymentDetails as CreditCardPaymentDetails;
+
+        if (creditCardPaymentDetails == null)
+        {
+            throw new ArgumentException("Invalid payment details for Credit Card processor.");
+        }
+
         // Simulate payment processing
         Console.WriteLine(
             $"Processing payment of {creditCardPaymentDetails.Amount:C}{creditCardPaymentDetails.Currency} for card number {creditCardPaymentDetails.CardNumber}, expires on {creditCardPaymentDetails.ExpiryDate.ToShortDateString()}");
@@ -111,7 +149,13 @@ public class BankTransferProcessor : IPaymentProcessor
     public PaymentStatus Charge(IPaymentDetails paymentDetails)
         //(string cardNumber, DateTime expiryDate, string currency, decimal amount)
     {
-        var bankPaymentDetails = paymentDetails as BankPaymentDetails;
+        BankPaymentDetails bankPaymentDetails = paymentDetails as BankPaymentDetails;
+
+        if (bankPaymentDetails == null)
+        {
+            throw new ArgumentException("Invalid payment details for Bank Transfer processor.");
+        }
+
         // Simulate payment processing
         Console.WriteLine(
             $"Processing payment of {bankPaymentDetails.Amount:C}{bankPaymentDetails.Currency} for IBAN {bankPaymentDetails.IBAN}");

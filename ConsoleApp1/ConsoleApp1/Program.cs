@@ -44,9 +44,27 @@ class Program
         loggable.Log();
     }
 
+    private static IDataRetriever GetRandomRetriever()
+    {
+        Random random = new Random();
+        int choice = random.Next(0, 2);
+
+        if (choice == 0)
+        {
+            return new StringDataRetriever();
+        }
+        else
+        {
+            return new StringLineFileReader();
+        }
+    }
+
     static void Main2(string[] args)
     {
-        IDataRetriever stringData = new StringLineFileReader();
+        IDataRetriever stringData = GetRandomRetriever();
+
+        Console.WriteLine("Data retrieved type: " + stringData.GetName());
+
 
         foreach (var line in stringData.GetData())
         {
