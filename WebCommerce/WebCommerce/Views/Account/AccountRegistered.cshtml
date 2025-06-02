@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Registration Successful";
+}
+
+<h2>Registration Successful!</h2>
+
+<p>Welcome @(((AccountModel)Model).UserName)</p>
+<p>Thank you for registering. Your account has been created.</p>
+
+<p>
+    @Html.ActionLink("Go to Home", "Index", "Home")
+</p>

@@ -1,0 +1,14 @@
+@model List<UserAccount>
+
+<h2>Existing Users</h2>
+
+@{
+    ViewData["Title"] = "User Accounts";
+}
+
+<ul>
+    @foreach (var user in Model)
+    {
+        <li>@user.Id  @user.UserName</li>
+    }
+</ul>

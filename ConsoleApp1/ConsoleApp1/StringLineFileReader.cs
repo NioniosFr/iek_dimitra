@@ -1,0 +1,9 @@
+﻿namespace ConsoleApp1;
+
+public class StringLineFileReader : IDataRetriever
+{
+    public string[] GetData()
+    {
+        return File.ReadAllLines("data.txt");
+    }
+}

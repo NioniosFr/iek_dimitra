@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Registration Form";
+}
+
+<h2>Register for an Account</h2>
+
+<form method="post" asp-controller="Account" asp-action="Register" accept="application/x-www-form-urlencoded">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+
+    <label for="dateOfBirth">Date of Birth:</label><br>
+    <input type="date" id="dateOfBirth" name="dateOfBirth"><br><br>
+
+    @* <label for="gender">Gender:</label><br> *@
+    @* <input type="radio" id="male" name="gender" value="male"> *@
+    @* <label for="male">Male</label><br> *@
+    @* <input type="radio" id="female" name="gender" value="female"> *@
+    @* <label for="female">Female</label><br> *@
+    @* <input type="radio" id="other" name="gender" value="other"> *@
+    @* <label for="other">Other</label><br><br> *@
+    @* *@
+    @* <label for="country">Country:</label><br> *@
+    @* <select id="country" name="country"> *@
+    @*     <option value="">--Please choose an option--</option> *@
+    @*     <option value="usa">United States</option> *@
+    @*     <option value="canada">Canada</option> *@
+    @*     <option value="uk">United Kingdom</option> *@
+    @*     <option value="australia">Australia</option> *@
+    @*     <option value="germany">Germany</option> *@
+    @*     <option value="france">France</option> *@
+    @*     <option value="japan">Japan</option> *@
+    @*     <option value="india">India</option> *@
+    @*     <option value="brazil">Brazil</option> *@
+    @* </select><br><br> *@
+    @* *@
+    @* <input type="checkbox" id="terms" name="terms" required> *@
+    @* <label for="terms">I agree to the <a href="#">terms and conditions</a></label><br><br> *@
+
+    <input type="submit" value="Register">
+</form>
+
+@section Scripts {
+    <script>
+        // You can add client-side validation or other JavaScript here if needed.
+        // For example, to check if the passwords match before submitting:
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                e.preventDefault(); // Prevent the form from submitting
+            }
+        });
+    </script>
+}
